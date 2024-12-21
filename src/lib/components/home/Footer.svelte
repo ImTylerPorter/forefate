@@ -41,7 +41,7 @@
 						{#each navigation.social as item}
 							<a href={item.href} class="text-neutral-500 hover:text-neutral-600">
 								<span class="sr-only">{item.name}</span>
-								<svelte:component this={item.icon} class="h-6 w-6" />
+								<item.icon class="h-6 w-6" />
 							</a>
 						{/each}
 					</div>

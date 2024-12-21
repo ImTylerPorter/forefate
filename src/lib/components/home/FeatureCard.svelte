@@ -1,9 +1,15 @@
 <script lang="ts">
 	import type { ComponentType } from 'svelte';
 
-	export let name: string;
-	export let description: string;
-	export let icon: ComponentType;
+	interface Props {
+		name: string;
+		description: string;
+		icon: ComponentType;
+	}
+
+	let { name, description, icon }: Props = $props();
+
+	const SvelteComponent = $derived(icon);
 </script>
 
 <div
@@ -19,7 +25,7 @@
 		<div
 			class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 shadow-md"
 		>
-			<svelte:component this={icon} class="h-6 w-6 text-white" aria-hidden="true" />
+			<SvelteComponent class="h-6 w-6 text-white" aria-hidden="true" />
 		</div>
 		<h3 class="mt-6 text-lg font-semibold leading-7 text-neutral-900">
 			{name}
