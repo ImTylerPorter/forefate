@@ -6,8 +6,8 @@
 		{ name: 'Dashboard', href: '/', icon: Home },
 		{ name: 'Scenarios', href: '/scenarios', icon: PieChart },
 		{ name: 'Collaborations', href: '/collaborations', icon: Users },
-		{ name: 'Historical Data', href: '/historical-data', icon: History },
-		{ name: 'Reports', href: '/reports', icon: FileText },
+		// { name: 'Historical Data', href: '/historical-data', icon: History },
+		// { name: 'Reports', href: '/reports', icon: FileText },
 		{ name: 'Settings', href: '/settings', icon: Settings }
 	];
 </script>
