@@ -8,11 +8,21 @@ export type Stat = {
 };
 
 export type Scenario = {
-  id: number;
-  name: string;
-  type: string;
-  status: string;
-  lastRun: string;
+	id: number;
+	name: string;
+	description?: string;
+	type: string;
+	status: 'Draft' | 'In Progress' | 'Completed' | 'Archived';
+	lastRun: string | null;
+	confidence?: number | null;
+};
+
+export type RecentScenario = {
+	id: number;
+	name: string;
+	type: string;
+	status: string;
+	lastRun: string | null;
 };
 
 export type Profile = {

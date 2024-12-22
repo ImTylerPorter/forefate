@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Scenario } from '$lib/types';
+	import type { RecentScenario } from '$lib/types';
 
-	let { scenarios } = $props<{ scenarios: Scenario[] }>();
+	let { scenarios } = $props<{ scenarios: RecentScenario[] }>();
 
 	const getStatusClass = (status: string) => {
 		switch (status) {
