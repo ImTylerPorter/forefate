@@ -14,3 +14,16 @@ export type Scenario = {
   status: string;
   lastRun: string;
 };
+
+export type Profile = {
+  id: string;
+  userId: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  displayName: string | null;
+  bio: string | null;
+  role: string | null;
+  profileImage: string | null;
+  createdAt: Date | null;
+};

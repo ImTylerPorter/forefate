@@ -1,3 +1,7 @@
+<script>
+	import { openAuthModal } from '$lib/stores/authModal';
+</script>
+
 <div class="relative isolate">
 	<!-- Background effects -->
 	<div
@@ -38,7 +42,7 @@
 				for your business and personal life.
 			</p>
 			<div class="mt-10 flex items-center gap-x-6">
-				<a href="/signup" class="btn-primary">
+				<button onclick={() => openAuthModal(false)} class="btn-primary">
 					Get started
 					<svg class="ml-2 h-4 w-4" viewBox="0 0 16 16" fill="none">
 						<path
@@ -49,8 +53,8 @@
 							stroke-linejoin="round"
 						/>
 					</svg>
-				</a>
-				<a href="/login" class="btn-secondary"> Sign in </a>
+				</button>
+				<button onclick={() => openAuthModal(true)} class="btn-secondary">Sign in</button>
 			</div>
 		</div>
 	</div>

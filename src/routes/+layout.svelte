@@ -10,6 +10,9 @@
 	import { page } from '$app/stores';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import LoginSignupModal from '$lib/components/LoginSignupModal.svelte';
+	import { authModal, closeAuthModal, toggleAuthMode } from '$lib/stores/authModal';
+	import { userProfile } from '$lib/stores/userProfile';
 
 	let { data, children } = $props<{
 		data: {
@@ -23,11 +26,11 @@
 	let { session, supabase, profile } = $derived(data);
 
 	$effect(() => {
-		// if (profile) {
-		// 	userProfile.set(profile);
-		// } else {
-		// 	userProfile.set(null);
-		// }
+		if (profile) {
+			userProfile.set(profile);
+		} else {
+			userProfile.set(null);
+		}
 	});
 
 	async function handleAuth(formData: FormData) {
@@ -38,7 +41,7 @@
 			});
 			const result = await response.json();
 			if (result.status === 200) {
-				// closeAuthModal();
+				closeAuthModal();
 
 				// After successful login, fetch the updated user profile from Supabase
 				const {
@@ -53,7 +56,7 @@
 						.single();
 
 					// Update our userProfile store directly, causing instant UI updates
-					// userProfile.set(updatedProfile);
+					userProfile.set(updatedProfile);
 				}
 			} else {
 				console.error(result.error || 'An unknown error occurred.');
@@ -78,12 +81,12 @@
 
 <div>
 	{@render children()}
-	<!-- {#if $authModal.open}
+	{#if $authModal.open}
 		<LoginSignupModal
 			isLogin={$authModal.isLogin}
 			onToggleModal={closeAuthModal}
 			onToggleLoginSignup={toggleAuthMode}
 			onHandleLogin={handleAuth}
 		/>
-	{/if} -->
+	{/if}
 </div>
