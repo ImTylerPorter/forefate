@@ -1,5 +1,5 @@
 <script lang="ts">
-	let {
+	let { children,
 		type = 'button',
 		onClick,
 		disabled = false
@@ -16,5 +16,5 @@
 	onclick={onClick}
 	{disabled}
 >
-	<slot></slot>
+	{@render children?.()}
 </button>
