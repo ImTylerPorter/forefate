@@ -1,10 +1,28 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import StepIndicator from './StepIndicator.svelte';
 	import BasicInfo from './steps/BasicInfo.svelte';
 	import Parameters from './steps/Parameters.svelte';
 	import Constraints from './steps/Constraints.svelte';
 	import Review from './steps/Review.svelte';
+
+	type ScenarioType = 'businessStrategy' | 'personalDecision' | 'resourceAllocation';
+
+	interface FormData {
+		name: string;
+		description: string;
+		type: '' | ScenarioType;
+		parameters: Array<{
+			name: string;
+			type: string;
+			value: string;
+			unit?: string;
+		}>;
+		constraints: Array<{
+			parameter: string;
+			operator: string;
+			value: string;
+		}>;
+	}
 
 	const steps = [
 		{ id: 'basic', name: 'Basic Info', component: BasicInfo },
@@ -14,7 +32,7 @@
 	];
 
 	let currentStep = $state(0);
-	let formData = $state({
+	let formData: FormData = $state({
 		name: '',
 		description: '',
 		type: '',
