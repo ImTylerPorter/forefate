@@ -12,7 +12,7 @@
 			<h1 class="text-2xl font-semibold text-neutral-900">Create New Scenario</h1>
 		</div>
 		<p class="mt-2 text-sm text-neutral-500">
-			Set up your scenario parameters and initial conditions
+			Configure the key parameters, constraints, and objectives for your scenario.
 		</p>
 	</div>
 

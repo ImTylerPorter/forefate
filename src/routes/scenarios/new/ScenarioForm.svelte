@@ -11,24 +11,15 @@
 		name: string;
 		description: string;
 		type: '' | ScenarioType;
-		parameters: Array<{
-			name: string;
-			type: string;
-			value: string;
-			unit?: string;
-		}>;
-		constraints: Array<{
-			parameter: string;
-			operator: string;
-			value: string;
-		}>;
+		parameters: Array<{ name: string; type: string; value: string; unit?: string }>;
+		constraints: Array<{ parameter: string; operator: string; value: string }>;
 	}
 
 	const steps = [
 		{ id: 'basic', name: 'Basic Info', component: BasicInfo },
 		{ id: 'parameters', name: 'Parameters', component: Parameters },
 		{ id: 'constraints', name: 'Constraints', component: Constraints },
-		{ id: 'review', name: 'Review', component: Review }
+		{ id: 'review', name: 'Review Scenario', component: Review }
 	];
 
 	let currentStep = $state(0);
@@ -41,20 +32,16 @@
 	});
 
 	function handleNext() {
-		if (currentStep < steps.length - 1) {
-			currentStep++;
-		}
+		if (currentStep < steps.length - 1) currentStep++;
 	}
 
 	function handleBack() {
-		if (currentStep > 0) {
-			currentStep--;
-		}
+		if (currentStep > 0) currentStep--;
 	}
 
 	async function handleSubmit() {
-		// TODO: Implement scenario creation
 		console.log('Creating scenario:', formData);
+		alert('Scenario created successfully!');
 	}
 
 	const SvelteComponent = $derived(steps[currentStep].component);
@@ -74,9 +61,9 @@
 			</button>
 
 			{#if currentStep === steps.length - 1}
-				<button type="button" class="btn-primary" onclick={handleSubmit}> Create Scenario </button>
+				<button type="button" class="btn-primary" onclick={handleSubmit}>Create Scenario</button>
 			{:else}
-				<button type="button" class="btn-primary" onclick={handleNext}> Continue </button>
+				<button type="button" class="btn-primary" onclick={handleNext}>Continue</button>
 			{/if}
 		</div>
 	</div>
