@@ -4,32 +4,47 @@
 
 @layer base {
   :root {
+    --primary: #6366f1;
+    --secondary: #fbbf24;
+    --neutral: #e5e7eb;
     font-family: 'Inter var', sans-serif;
   }
 
   body {
-    @apply bg-neutral-50 text-neutral-900;
+    @apply bg-gradient-to-b from-neutral-50 to-neutral-100 text-neutral-900 antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-bold text-gray-800;
+  }
+
+  p, span {
+    @apply text-gray-600;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center px-5 py-2 text-base font-semibold rounded-lg text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg text-primary-700 bg-primary-50 border border-primary-200 hover:bg-primary-100 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center px-4 py-2 text-base font-medium rounded-lg text-indigo-600 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 focus:outline-none focus:ring-4 focus:ring-indigo-300 shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .input-field {
-    @apply block w-full rounded-lg border-neutral-300 bg-white shadow-sm transition-all duration-200 focus:border-primary-500 focus:ring-primary-500 hover:border-primary-400 disabled:bg-neutral-100 disabled:cursor-not-allowed sm:text-sm;
+    @apply block w-full rounded-xl border border-gray-300 bg-white shadow-md hover:shadow-lg focus:border-indigo-500 focus:ring-indigo-500 transition-transform duration-200 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed;
+  }
+
+  .card {
+    @apply p-6 rounded-2xl shadow-lg bg-white border border-gray-200 hover:shadow-2xl transition-shadow duration-300;
   }
 
   .footer-background {
-    @apply bg-neutral-50;
+    @apply bg-gradient-to-t from-neutral-100 to-neutral-50;
   }
 
   .footer-text {
-    @apply text-neutral-900;
+    @apply text-gray-700;
   }
 }
