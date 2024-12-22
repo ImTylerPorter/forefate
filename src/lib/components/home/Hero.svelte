@@ -18,7 +18,11 @@
 	<div class="mx-auto max-w-7xl px-6 pb-32 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
 		<div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
 			<div class="mt-24 sm:mt-32 lg:mt-16">
-				<a href="/login" class="inline-flex space-x-6">
+				<button
+					type="button"
+					onclick={() => openAuthModal(false)}
+					class="inline-flex space-x-6 cursor-pointer bg-transparent border-none p-0"
+				>
 					<span
 						class="rounded-full bg-primary-500/10 px-3 py-1 text-sm font-semibold leading-6 text-primary-600 ring-1 ring-inset ring-primary-500/20"
 					>
@@ -29,7 +33,7 @@
 					>
 						<span>Just shipped v1.0</span>
 					</span>
-				</a>
+				</button>
 			</div>
 			<h1 class="mt-10 text-4xl font-bold tracking-tight text-neutral-900 sm:text-6xl">
 				Make better decisions with <span

@@ -31,83 +31,125 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center">
 	<!-- Backdrop -->
 	<div
-		class="absolute inset-0 bg-black/60 z-40 pointer-events-auto"
+		class="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm z-40 pointer-events-auto"
 		aria-hidden="true"
 		onclick={onToggleModal}
 	></div>
 
 	<!-- Modal Content -->
 	<div
-		class="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-w-md w-full p-6 z-50 pointer-events-auto"
+		class="relative bg-white dark:bg-neutral-800 rounded-xl shadow-2xl max-w-md w-full p-8 z-50 pointer-events-auto transition-all duration-300 ease-out transform"
 	>
-		<header class="flex justify-between items-center mb-4">
-			<h2 id="modal-title" class="text-xl font-bold text-gray-800 dark:text-gray-100">
-				{isLogin ? 'Login' : 'Sign Up'}
+		<header class="flex justify-between items-center mb-6">
+			<h2 id="modal-title" class="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+				{isLogin ? 'Welcome Back' : 'Create Account'}
 			</h2>
 			<button
 				onclick={onToggleModal}
 				aria-label="Close modal"
-				class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-transform active:scale-95 focus:outline-none"
+				class="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors"
 			>
-				&times;
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M6 18L18 6M6 6l12 12"
+					/>
+				</svg>
 			</button>
 		</header>
 
 		<ErrorDisplay message={error} />
 
-		<form class="space-y-4" onsubmit={handleSubmit}>
+		<form class="space-y-6" onsubmit={handleSubmit}>
 			<div>
-				<label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-					<div class="flex items-center space-x-2">
-						<Mail class="w-5 h-5 text-gray-500 dark:text-gray-400" />
-						<span>Email</span>
-					</div>
+				<label
+					for="email"
+					class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+				>
+					Email
 				</label>
-				<Input id="email" type="email" name="email" bind:value={email} oninput={clearError} />
+				<div class="relative">
+					<Input
+						id="email"
+						type="email"
+						name="email"
+						bind:value={email}
+						oninput={clearError}
+						placeholder="you@example.com"
+						class="pl-10 w-full text-indent-[2.5rem]"
+						required
+					/>
+					<Mail
+						class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-400"
+					/>
+				</div>
 			</div>
 			<div>
-				<label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-					<div class="flex items-center space-x-2">
-						<Lock class="w-5 h-5 text-gray-500 dark:text-gray-400" />
-						<span>Password</span>
-					</div>
+				<label
+					for="password"
+					class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+				>
+					Password
 				</label>
-				<Input
-					id="password"
-					type="password"
-					name="password"
-					bind:value={password}
-					oninput={clearError}
-				/>
+				<div class="relative">
+					<Input
+						id="password"
+						type="password"
+						name="password"
+						bind:value={password}
+						oninput={clearError}
+						placeholder="••••••••"
+						class="pl-10 w-full text-indent-[2.5rem]"
+						required
+					/>
+					<Lock
+						class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-400"
+					/>
+				</div>
 			</div>
 			{#if !isLogin}
 				<div>
 					<label
 						for="confirmPassword"
-						class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+						class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
 					>
-						<div class="flex items-center space-x-2">
-							<UserPlus class="w-5 h-5 text-gray-500 dark:text-gray-400" />
-							<span>Confirm Password</span>
-						</div>
+						Confirm Password
 					</label>
-					<Input
-						id="confirmPassword"
-						type="password"
-						bind:value={confirmPassword}
-						oninput={clearError}
-					/>
+					<div class="relative">
+						<Input
+							id="confirmPassword"
+							type="password"
+							bind:value={confirmPassword}
+							oninput={clearError}
+							placeholder="••••••••"
+							class="pl-10 w-full text-indent-[2.5rem]"
+							required
+						/>
+						<UserPlus
+							class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-400"
+						/>
+					</div>
 				</div>
 			{/if}
-			<Button type="submit">{isLogin ? 'Login' : 'Sign Up'}</Button>
+			<Button type="submit">
+				{isLogin ? 'Sign In' : 'Create Account'}
+			</Button>
 		</form>
 
-		<div class="text-sm text-center mt-4">
+		<div class="mt-6 text-center">
 			<button
 				onclick={onToggleLoginSignup}
-				class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 underline focus:outline-none"
+				class="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
 			>
-				{isLogin ? "Don't have an account? Sign up" : 'Already have an account? Login'}
+				{isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
 			</button>
 		</div>
 	</div>

@@ -5,7 +5,9 @@
 		name = '',
 		value = $bindable(''),
 		placeholder = '',
-		oninput
+		oninput,
+		class: className = '',
+		required = $bindable(true)
 	} = $props<{
 		id: string;
 		type?: string;
@@ -13,14 +15,15 @@
 		value?: string;
 		placeholder?: string;
 		oninput?: (event: Event) => void;
+		class?: string;
+		required?: boolean;
 	}>();
+
+	const defaultClasses =
+		'w-full p-2 border border-neutral-300 rounded-md dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-500';
+
+	// Combine classes directly
+	const combinedClasses = `${defaultClasses} ${className}`.trim();
 </script>
 
-<input
-	{id}
-	{type}
-	{name}
-	bind:value
-	{placeholder}
-	class="w-full p-2 border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-/>
+<input {id} {type} {name} bind:value {placeholder} {oninput} class={combinedClasses} {required} />
