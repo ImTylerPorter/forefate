@@ -1,9 +1,11 @@
 <script lang="ts">
-	let { children,
+	let {
+		children,
 		type = 'button',
 		onClick,
 		disabled = false
 	} = $props<{
+		children?: () => any;
 		type?: 'button' | 'submit' | 'reset';
 		onClick?: () => void;
 		disabled?: boolean;

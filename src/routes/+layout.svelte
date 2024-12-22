@@ -8,7 +8,7 @@
 	} from '@supabase/supabase-js';
 	import '../app.css';
 	import { page } from '$app/stores';
-	import { invalidate } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import LoginSignupModal from '$lib/components/LoginSignupModal.svelte';
 	import { authModal, closeAuthModal, toggleAuthMode } from '$lib/stores/authModal';
@@ -57,6 +57,7 @@
 
 					// Update our userProfile store directly, causing instant UI updates
 					userProfile.set(updatedProfile);
+					goto('/dashboard');
 				}
 			} else {
 				console.error(result.error || 'An unknown error occurred.');
