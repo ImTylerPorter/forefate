@@ -38,6 +38,8 @@
 		// TODO: Implement scenario creation
 		console.log('Creating scenario:', formData);
 	}
+
+	const SvelteComponent = $derived(steps[currentStep].component);
 </script>
 
 <div class="space-y-8">
@@ -45,7 +47,7 @@
 
 	<div class="bg-white shadow-sm ring-1 ring-neutral-900/5 rounded-lg">
 		<div class="p-6">
-			<svelte:component this={steps[currentStep].component} bind:formData />
+			<SvelteComponent bind:formData />
 		</div>
 
 		<div class="flex items-center justify-between gap-4 border-t border-neutral-900/5 px-6 py-4">

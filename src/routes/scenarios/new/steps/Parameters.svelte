@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Plus, X } from 'lucide-svelte';
 
-	export let formData: {
+	interface Props {
+		formData: {
 		parameters: Array<{
 			name: string;
 			type: string;
@@ -9,6 +10,9 @@
 			unit?: string;
 		}>;
 	};
+	}
+
+	let { formData = $bindable() }: Props = $props();
 
 	const parameterTypes = ['number', 'percentage', 'text', 'boolean'];
 

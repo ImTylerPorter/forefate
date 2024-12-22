@@ -1,5 +1,6 @@
 <script lang="ts">
-	export let formData: {
+	interface Props {
+		formData: {
 		name: string;
 		description: string;
 		type: string;
@@ -15,6 +16,9 @@
 			value: string;
 		}>;
 	};
+	}
+
+	let { formData }: Props = $props();
 </script>
 
 <div class="space-y-8">

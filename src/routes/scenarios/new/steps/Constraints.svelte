@@ -1,13 +1,17 @@
 <script lang="ts">
 	import { Plus, X } from 'lucide-svelte';
 
-	export let formData: {
+	interface Props {
+		formData: {
 		constraints: Array<{
 			parameter: string;
 			operator: string;
 			value: string;
 		}>;
 	};
+	}
+
+	let { formData = $bindable() }: Props = $props();
 
 	const operators = ['>=', '<=', '=', '>', '<'];
 

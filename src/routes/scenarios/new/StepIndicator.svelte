@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let steps: { id: string; name: string }[];
-	export let currentStep: number;
+	interface Props {
+		steps: { id: string; name: string }[];
+		currentStep: number;
+	}
+
+	let { steps, currentStep }: Props = $props();
 </script>
 
 <nav aria-label="Progress">

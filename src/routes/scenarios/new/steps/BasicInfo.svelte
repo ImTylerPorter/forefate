@@ -1,9 +1,13 @@
 <script lang="ts">
-	export let formData: {
+	interface Props {
+		formData: {
 		name: string;
 		description: string;
 		type: string;
 	};
+	}
+
+	let { formData = $bindable() }: Props = $props();
 
 	const scenarioTypes = [
 		'Business Strategy',
