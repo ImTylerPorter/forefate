@@ -1,70 +1,131 @@
 <script lang="ts">
-	import StepIndicator from './StepIndicator.svelte';
-	import BasicInfo from './steps/BasicInfo.svelte';
-	import Parameters from './steps/Parameters.svelte';
-	import Constraints from './steps/Constraints.svelte';
-	import Review from './steps/Review.svelte';
+	import {
+		SCENARIO_TYPES,
+		RECOMMENDED_FACTORS,
+		RECOMMENDED_BOUNDARIES,
+		type ScenarioFormData,
+		type ScenarioVariable
+	} from '$lib/data/scenarioData';
+	import BasicInfo from './BasicInfo.svelte';
+	import FactorsSection from './FactorsSection.svelte';
+	import BoundariesSection from './BoundariesSection.svelte';
 
-	type ScenarioType = 'businessStrategy' | 'personalDecision' | 'resourceAllocation';
+	// 1. Define an interface for your props (no generics needed here).
+	interface ScenarioFormProps {
+		// If you allow partial initial data, use Partial<ScenarioFormData>
+		initialFormData?: Partial<ScenarioFormData>;
 
-	interface FormData {
-		name: string;
-		description: string;
-		type: '' | ScenarioType;
-		parameters: Array<{ name: string; type: string; value: string; unit?: string }>;
-		constraints: Array<{ parameter: string; operator: string; value: string }>;
+		// Callback triggered on submit
+		onSubmit?: (
+			formData: ScenarioFormData,
+			factors: ScenarioVariable[],
+			boundaries: ScenarioVariable[]
+		) => void;
 	}
 
-	const steps = [
-		{ id: 'basic', name: 'Basic Info', component: BasicInfo },
-		{ id: 'parameters', name: 'Parameters', component: Parameters },
-		{ id: 'constraints', name: 'Constraints', component: Constraints },
-		{ id: 'review', name: 'Review Scenario', component: Review }
-	];
+	// 2. Grab raw props and manually cast them.
+	const rawProps = $props();
+	const { initialFormData, onSubmit } = rawProps as ScenarioFormProps;
 
-	let currentStep = $state(0);
-	let formData: FormData = $state({
-		name: '',
-		description: '',
-		type: '',
-		parameters: [],
-		constraints: []
-	});
+	// 3. Provide fallback if undefined
+	const safeInitialData = initialFormData ?? {};
+	const safeOnSubmit = onSubmit ?? (() => {});
 
-	function handleNext() {
-		if (currentStep < steps.length - 1) currentStep++;
+	// 4. Merge partial fields into a full ScenarioFormData
+	let formData: ScenarioFormData = {
+		name: safeInitialData.name ?? '',
+		type: safeInitialData.type ?? '',
+		description: safeInitialData.description ?? ''
+	};
+
+	// 5. Local arrays for factors/boundaries
+	let factors: ScenarioVariable[] = [];
+	let boundaries: ScenarioVariable[] = [];
+	let showFactors = false;
+	let showBoundaries = false;
+
+	/* ---------- Factor methods ---------- */
+	function addFactor() {
+		factors = [
+			...factors,
+			{ type: 'factor', data: { measure: '', reason: '', value: '', unit: '' } }
+		];
+	}
+	function removeFactor(index: number) {
+		factors = factors.filter((_, i) => i !== index);
+	}
+	function addRecommendedFactors() {
+		if (RECOMMENDED_FACTORS[formData.type]) {
+			const recs = RECOMMENDED_FACTORS[formData.type].map((item) => ({
+				type: 'factor' as const,
+				data: { ...item }
+			}));
+			factors = [...factors, ...recs];
+			showFactors = true;
+		}
 	}
 
-	function handleBack() {
-		if (currentStep > 0) currentStep--;
+	/* ---------- Boundary methods ---------- */
+	function addBoundary() {
+		boundaries = [
+			...boundaries,
+			{
+				type: 'boundary',
+				data: { factorMeasure: '', condition: '≤', threshold: '', explanation: '' }
+			}
+		];
+	}
+	function removeBoundary(index: number) {
+		boundaries = boundaries.filter((_, i) => i !== index);
+	}
+	function addRecommendedBoundaries() {
+		if (RECOMMENDED_BOUNDARIES[formData.type]) {
+			const recs = RECOMMENDED_BOUNDARIES[formData.type].map((item) => ({
+				type: 'boundary' as const,
+				data: { ...item }
+			}));
+			boundaries = [...boundaries, ...recs];
+			showBoundaries = true;
+		}
 	}
 
-	async function handleSubmit() {
-		console.log('Creating scenario:', formData);
-		alert('Scenario created successfully!');
+	/* ---------- Submission ---------- */
+	function handleSubmit() {
+		safeOnSubmit(formData, factors, boundaries);
 	}
-
-	const SvelteComponent = $derived(steps[currentStep].component);
 </script>
 
-<div class="space-y-8">
-	<StepIndicator {steps} {currentStep} />
+<div class="space-y-6 max-w-3xl mx-auto mt-8 px-4">
+	<div class="border-b border-neutral-200 pb-4">
+		<h1 class="text-2xl font-semibold text-neutral-900">Create a New Scenario</h1>
+		<p class="mt-2 text-sm text-neutral-500">
+			Provide the basics below. You can auto-add <strong>recommended factors</strong> or
+			<strong>boundaries</strong> for your chosen scenario type, or define your own.
+		</p>
+	</div>
 
-	<div class="bg-white shadow-sm ring-1 ring-neutral-900/5 rounded-lg">
-		<div class="p-6">
-			<SvelteComponent bind:formData />
-		</div>
+	<BasicInfo
+		{formData}
+		{SCENARIO_TYPES}
+		{RECOMMENDED_FACTORS}
+		{RECOMMENDED_BOUNDARIES}
+		{addRecommendedFactors}
+		{addRecommendedBoundaries}
+	/>
 
-		<div class="flex items-center justify-between gap-4 border-t border-neutral-900/5 px-6 py-4">
-			<button type="button" class="btn-secondary" onclick={handleBack} disabled={currentStep === 0}>
-				Back
-			</button>
+	<FactorsSection {factors} {showFactors} {addFactor} {removeFactor} />
 
-			{#if currentStep === steps.length - 1}
-				<button type="button" class="btn-primary" onclick={handleSubmit}>Create Scenario</button>
-			{:else}
-				<button type="button" class="btn-primary" onclick={handleNext}>Continue</button>
-			{/if}
-		</div>
+	<BoundariesSection {boundaries} {showBoundaries} {addBoundary} {removeBoundary} />
+
+	<div class="bg-white shadow-sm ring-1 ring-neutral-900/5 rounded-lg p-6">
+		<button type="button" class="btn-primary w-full" on:click={handleSubmit}>
+			Create Scenario
+		</button>
 	</div>
 </div>
+
+<style lang="postcss">
+	.input-field {
+		@apply w-full border border-neutral-300 rounded-md px-3 py-2;
+	}
+</style>
