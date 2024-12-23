@@ -1,14 +1,28 @@
 <script lang="ts">
-	// Instead of export let formData, etc., we destructure from $props().
-
 	let {
 		formData,
 		SCENARIO_TYPES,
 		RECOMMENDED_FACTORS,
 		RECOMMENDED_BOUNDARIES,
-		addRecommendedFactors,
-		addRecommendedBoundaries
+		onAddRecommendedFactors,
+		onAddRecommendedBoundaries
 	} = $props();
+
+	function addRecommendedFactors() {
+		onAddRecommendedFactors(formDataState.type);
+	}
+
+	function addRecommendedBoundaries() {
+		onAddRecommendedBoundaries(formDataState.type);
+	}
+
+	let formDataState = $state({
+		...formData
+	});
+
+	function handleTypeChange(event: Event) {
+		formDataState.type = (event.target as HTMLSelectElement).value;
+	}
 </script>
 
 <!-- Basic Info Card -->
@@ -30,16 +44,21 @@
 		<label class="block text-sm font-medium text-neutral-900" for="scenario-type">
 			Scenario Type
 		</label>
-		<select id="scenario-type" class="input-field mt-1" bind:value={formData.type}>
+		<select
+			id="scenario-type"
+			class="input-field mt-1"
+			bind:value={formData.type}
+			onchange={handleTypeChange}
+		>
 			<option value="">-- Select a Scenario Type --</option>
 			{#each SCENARIO_TYPES as scenarioType}
 				<option value={scenarioType}>{scenarioType}</option>
 			{/each}
 		</select>
 
-		{#if formData.type && (RECOMMENDED_FACTORS[formData.type] || RECOMMENDED_BOUNDARIES[formData.type])}
+		{#if formDataState.type && (RECOMMENDED_FACTORS[formDataState.type] || RECOMMENDED_BOUNDARIES[formDataState.type])}
 			<div class="flex gap-3 mt-2">
-				{#if RECOMMENDED_FACTORS[formData.type]}
+				{#if RECOMMENDED_FACTORS[formDataState.type]}
 					<button
 						type="button"
 						class="text-blue-600 text-sm underline"
@@ -48,7 +67,7 @@
 						+ Add recommended factors
 					</button>
 				{/if}
-				{#if RECOMMENDED_BOUNDARIES[formData.type]}
+				{#if RECOMMENDED_BOUNDARIES[formDataState.type]}
 					<button
 						type="button"
 						class="text-blue-600 text-sm underline"
@@ -74,3 +93,9 @@
 		></textarea>
 	</div>
 </div>
+
+<style lang="postcss">
+	.input-field {
+		@apply w-full border border-neutral-300 rounded-md px-3 py-2;
+	}
+</style>
