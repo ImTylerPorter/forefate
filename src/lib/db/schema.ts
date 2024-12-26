@@ -1,5 +1,3 @@
-// src/lib/db/schema.ts
-
 import {
   pgEnum,
   pgSchema,
@@ -65,7 +63,7 @@ export const scenariosTable = pgTable(
     updated_at: timestamp('updated_at').defaultNow().notNull(),
   },
   (table) => [
-    uniqueIndex('scenarios_user_id_idx').on(table.user_id),
+    uniqueIndex('scenarios_user_id_name_idx').on(table.user_id, table.name), // Updated unique index
     index('scenarios_name_idx').on(table.name),
   ]
 );

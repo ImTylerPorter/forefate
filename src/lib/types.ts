@@ -37,3 +37,13 @@ export type Profile = {
   profileImage: string | null;
   createdAt: Date | null;
 };
+
+export type ScenarioVariable = {
+  id: string;
+  scenario_id: string;
+  name: string;
+  type: string;
+  value: string;
+  created_at: Date;
+  updated_at: Date;
+}

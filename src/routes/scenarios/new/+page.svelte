@@ -2,26 +2,48 @@
 	import ScenarioForm from './ScenarioForm.svelte';
 	import type { ScenarioFormData, ScenarioVariable } from '$lib/data/scenarioData';
 	import type { AnyARecord } from 'dns';
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
+
+	let formError = $state('');
 
 	function deepUnproxy(obj: ScenarioVariable[] | ScenarioFormData): AnyARecord {
 		return JSON.parse(JSON.stringify(obj));
 	}
-	function handleSubmit(
+	async function handleSubmit(
 		formData: ScenarioFormData,
 		factors: ScenarioVariable[],
 		boundaries: ScenarioVariable[]
 	) {
-		// Convert Proxy arrays to regular arrays
 		const realFactors = Array.isArray(factors) ? deepUnproxy(factors) : [];
 		const realBoundaries = Array.isArray(boundaries) ? deepUnproxy(boundaries) : [];
 
-		console.log('Form data:', formData);
-		console.log('Factors:', realFactors);
-		console.log('Boundaries:', realBoundaries);
+		const dataToSend = {
+			formData,
+			factors: realFactors,
+			boundaries: realBoundaries
+		};
 
-		// Here you would have access to the actual data within the Proxy objects
-		// Proceed with any operations like database insertion or API calls
-		alert(`Scenario "${formData.name}" created successfully!`);
+		try {
+			const response = await fetch(`${page.url.pathname}/create`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(dataToSend)
+			});
+
+			const result = await response.json();
+			// Handle your response here, e.g., update UI or show feedback
+			if (response.ok) {
+				goto(`/scenarios/${result.newScenario.id}`);
+			} else {
+				formError = 'Failed to create scenario';
+			}
+		} catch (err) {
+			// Handle errors, e.g., network issues
+			formError = 'Failed to create scenario';
+		}
 	}
 </script>
 
