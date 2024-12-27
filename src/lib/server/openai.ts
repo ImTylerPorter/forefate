@@ -5,7 +5,7 @@ import type { ScenarioVariable, ScenarioFormData } from '$lib/types';
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
-  baseURL: 'https://api.openai.com/v1',
+  baseURL: "https://api.x.ai/v1",
 });
 
 export async function analyzeScenario(
