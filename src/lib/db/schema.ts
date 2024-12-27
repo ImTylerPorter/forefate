@@ -77,7 +77,6 @@ export const scenarioVariablesTable = pgTable(
       .notNull()
       .references(() => scenariosTable.id, { onDelete: 'cascade' }),
     name: varchar('name', { length: 255 }).notNull(),
-    type: varchar('type', { length: 50 }).notNull(), // e.g., number, string, boolean
     value: jsonb('value').notNull(),
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),
@@ -99,6 +98,7 @@ export const simulationsTable = pgTable(
     simulation_type: varchar('simulation_type', { length: 50 }).notNull(), // Monte Carlo, Decision Trees, Neural Networks
     parameters: jsonb('parameters').notNull(),
     results: jsonb('results').notNull(),
+    confidence: text('confidence').notNull(), // Confidence percentage as text or numeric
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),
   },

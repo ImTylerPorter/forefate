@@ -15,6 +15,20 @@
       "when": 1735249073221,
       "tag": "0001_chunky_groot",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735251963835,
+      "tag": "0002_shallow_viper",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1735260184952,
+      "tag": "0003_rapid_pride",
+      "breakpoints": true
     }
   ]
 }

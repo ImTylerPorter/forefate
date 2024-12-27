@@ -1,0 +1,1 @@
+ALTER TABLE "scenario_variables" DROP COLUMN "type";

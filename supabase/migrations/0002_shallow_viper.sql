@@ -1,0 +1,1 @@
+ALTER TABLE "simulations" ADD COLUMN "confidence" text NOT NULL;

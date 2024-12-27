@@ -9,6 +9,7 @@ export type Stat = {
 
 export type Scenario = {
 	id: number;
+  user_id: string;
 	name: string;
 	description?: string;
 	type: string;
@@ -16,6 +17,7 @@ export type Scenario = {
 	lastRun: string | null;
 	confidence?: number | null;
 };
+
 
 export type RecentScenario = {
 	id: number;
@@ -38,12 +40,58 @@ export type Profile = {
   createdAt: Date | null;
 };
 
+
+export type ScenarioValue ={
+  measure?: string;
+  reason?: string;
+  unit?: string;
+  value? : string;
+  condition?: string;
+  threshold?: string;
+  explanation?: string;
+};
+
+
 export type ScenarioVariable = {
   id: string;
   scenario_id: string;
   name: string;
   type: string;
-  value: string;
+  value: ScenarioValue;
   created_at: Date;
   updated_at: Date;
+}
+
+export type SimulationResult = {
+  analysis: string;
+};
+
+export type Simulation = {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  scenario_id: string;
+  simulation_type: string;
+  parameters: unknown; // or a more specific type if known
+  results: SimulationResult;
+  confidence: string;
+};
+
+
+export type VariableValue = {
+	measure?: string;
+	factorMeasure?: string;
+	unit?: string;
+	value?: string;
+	reason?: string;
+	condition?: string;
+	threshold?: string;
+	explanation?: string;
+};
+
+// Minimal columns for scenario data
+export type ScenarioFormData ={
+  name: string;
+  type: string;
+  description: string;
 }

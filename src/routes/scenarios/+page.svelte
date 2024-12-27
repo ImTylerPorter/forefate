@@ -9,6 +9,7 @@
 			name: 'Market Expansion Strategy',
 			description: 'Analysis of potential market expansion into APAC region',
 			type: 'Business',
+			user_id: '1',
 			status: 'In Progress',
 			lastRun: '2024-01-10T14:30:00Z',
 			confidence: 78
@@ -18,6 +19,7 @@
 			name: 'Q2 Resource Planning',
 			description: 'Resource allocation simulation for Q2 2024',
 			type: 'Operations',
+			user_id: '1',
 			status: 'Draft',
 			lastRun: null,
 			confidence: null

@@ -1,4 +1,3 @@
-// src/routes/api/scenarios/+server.ts
 import { db } from '$lib/db';
 import { scenariosTable, scenarioVariablesTable } from '$lib/db/schema';
 import { error } from '@sveltejs/kit';
@@ -6,7 +5,7 @@ import { error } from '@sveltejs/kit';
 export async function POST({ request, locals }: { request: Request; locals: App.Locals }) {
   try {
     const data = await request.json();
-    const { formData, factors, boundaries } = data;
+    const { formData, variables } = data;
     const { name, type, description } = formData;
 
     // Ensure user authentication
@@ -30,28 +29,14 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       throw error(500, 'Failed to create a new scenario');
     }
 
-    // Insert factors
-    if (factors && Array.isArray(factors)) {
+    // Insert scenario variables
+    if (variables && Array.isArray(variables)) {
       await db.insert(scenarioVariablesTable).values(
-        factors.map((factor) => ({
+        variables.map((variable) => ({
           scenario_id: scenarioId,
-          name: factor.data.measure,
-          type: factor.type,
-          value: factor.data.value !== undefined ? factor.data.value : '',
-          created_at: new Date(),
-          updated_at: new Date(),
-        }))
-      );
-    }
-
-    // Insert boundaries
-    if (boundaries && Array.isArray(boundaries)) {
-      await db.insert(scenarioVariablesTable).values(
-        boundaries.map((boundary) => ({
-          scenario_id: scenarioId,
-          name: boundary.data.factorMeasure,
-          type: boundary.type,
-          value: boundary.data.threshold !== undefined ? boundary.data.threshold : '',
+          name: variable.data.measure || variable.data.factorMeasure, // Use measure or factorMeasure as name
+          type: variable.type,
+          value: variable.data, // Store the entire data object
           created_at: new Date(),
           updated_at: new Date(),
         }))
@@ -62,7 +47,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
     return new Response(
       JSON.stringify({
         newScenario: newScenario[0],
-        message: 'Scenario, factors, and boundaries added successfully'
+        message: 'Scenario and variables added successfully'
       }),
       {
         headers: { 'Content-Type': 'application/json' }
