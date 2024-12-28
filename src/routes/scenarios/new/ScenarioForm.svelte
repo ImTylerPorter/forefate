@@ -214,7 +214,7 @@
 	</section>
 
 	<!-- Submit Button -->
-	<div class="bg-white shadow-sm ring-1 ring-neutral-900/5 rounded-lg p-6">
+	<div class="bg-white shadow-md ring-1 ring-neutral-900/5 rounded-lg p-6">
 		<button type="button" class="btn-primary w-full" onclick={handleSubmit}>
 			Create Scenario
 		</button>

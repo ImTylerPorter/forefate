@@ -12,7 +12,7 @@
 </script>
 
 <!-- Basic Info Card -->
-<div class="bg-white shadow-sm ring-1 ring-neutral-900/5 rounded-lg p-6 space-y-4">
+<div class="bg-white shadow-md ring-1 ring-neutral-900/5 rounded-lg p-6 space-y-4">
 	<div>
 		<label class="block text-sm font-medium text-neutral-900" for="scenario-name">
 			Scenario Name

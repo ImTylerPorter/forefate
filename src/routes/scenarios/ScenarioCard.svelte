@@ -25,7 +25,7 @@
 </script>
 
 <div
-	class="group relative rounded-lg border border-neutral-200 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md"
+	class="group relative rounded-lg border border-neutral-200 bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg"
 >
 	<div class="flex items-center justify-between">
 		<span
@@ -36,7 +36,7 @@
 		<span class="text-sm text-neutral-500">{scenario.type}</span>
 	</div>
 
-	<h3 class="mt-4 text-lg font-medium text-neutral-900">
+	<h3 class="mt-4 text-lg font-semibold text-neutral-900">
 		{scenario.name}
 	</h3>
 
