@@ -66,13 +66,33 @@ export type SimulationResult = {
   analysis: string;
 };
 
+export type SimulationParameters = {
+    scenario: {
+        name: string;
+        type: string;
+        description: string;
+    };
+    variables: Array<{
+        name: string;
+        value: {
+            measure?: string;
+            unit?: string;
+            value?: string;
+            reason?: string;
+            condition?: string;
+            threshold?: string;
+            explanation?: string;
+        };
+    }>;
+};
+
 export type Simulation = {
   id: string;
   created_at: Date;
   updated_at: Date;
   scenario_id: string;
   simulation_type: string;
-  parameters: unknown; // or a more specific type if known
+  parameters: SimulationParameters;
   results: SimulationResult;
   confidence: string;
 };
