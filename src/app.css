@@ -14,11 +14,15 @@
     @apply bg-gradient-to-b from-neutral-50 to-neutral-100 text-neutral-900 antialiased;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-bold text-gray-800;
   }
 
-  p, span {
+  p,
+  span {
     @apply text-gray-600;
   }
 }
@@ -67,5 +71,33 @@
 
   .simulation-content {
     @apply border-t border-neutral-200 pt-4 text-neutral-700;
+  }
+
+  .prose {
+    @apply text-neutral-700;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    @apply text-neutral-900 font-bold;
+  }
+
+  .prose a {
+    @apply text-primary-600 hover:text-primary-700 transition-colors;
+  }
+
+  .prose strong {
+    @apply text-neutral-900 font-semibold;
+  }
+
+  .prose ul,
+  .prose ol {
+    @apply my-4;
+  }
+
+  .prose li {
+    @apply my-1;
   }
 }
