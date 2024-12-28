@@ -63,4 +63,6 @@
 	>
 		<span class="sr-only">View scenario details</span>
 	</a>
+
+	<a href={`/scenarios/${scenario.id}/edit`} class="btn-secondary mt-4 inline-block"> Edit </a>
 </div>

@@ -55,16 +55,19 @@
 			<Tag class="w-4 h-4 mr-2" />
 			<span>{scenario.type}</span>
 		</div>
-		<button class="btn-primary" onclick={runSimulation} disabled={isRunning}>
-			<span class="flex items-center space-x-2">
-				{#if isRunning}
-					<RefreshCw class="animate-spin w-5 h-5" />
-					<span class="text-white">Running Simulation...</span>
-				{:else}
-					<span class="text-white">Run Simulation</span>
-				{/if}
-			</span>
-		</button>
+		<div class="flex items-center space-x-4">
+			<button class="btn-primary" onclick={runSimulation} disabled={isRunning}>
+				<span class="flex items-center space-x-2">
+					{#if isRunning}
+						<RefreshCw class="animate-spin w-5 h-5" />
+						<span class="text-white">Running Simulation...</span>
+					{:else}
+						<span class="text-white">Run Simulation</span>
+					{/if}
+				</span>
+			</button>
+			<a href={`/scenarios/${scenario.id}/edit`} class="btn-secondary"> Edit Scenario </a>
+		</div>
 	</header>
 
 	<!-- Scenario Variables Section -->
@@ -175,3 +178,9 @@
 		{/if}
 	</section>
 </main>
+
+<style lang="postcss">
+	.btn-secondary {
+		@apply px-4 py-2 border border-neutral-300 rounded-md bg-neutral-100 hover:bg-neutral-200;
+	}
+</style>

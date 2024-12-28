@@ -90,8 +90,9 @@ export type VariableValue = {
 };
 
 // Minimal columns for scenario data
-export type ScenarioFormData ={
+export type ScenarioFormData = {
   name: string;
   type: string;
-  description: string;
-}
+  description: string | null;
+  id?: string;
+};

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ScenarioForm from './ScenarioForm.svelte';
+	import ScenarioForm from '$lib/components/scenarios/ScenarioForm.svelte';
 	import type { ScenarioFormData, ScenarioVariable } from '$lib/types';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';

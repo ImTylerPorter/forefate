@@ -4,20 +4,31 @@
 	import type { ScenarioFormData, ScenarioVariable } from '$lib/types';
 	import { RECOMMENDED_FIELDS } from '$lib/data/scenarioData';
 
-	const rawProps = $props();
-	const { initialFormData, onSubmit } = rawProps as {
-		initialFormData?: Partial<ScenarioFormData>;
-		onSubmit?: (formData: ScenarioFormData, variables: ScenarioVariable[]) => void;
+	let {
+		scenario,
+		variables: existingVariables,
+		onSubmit
+	} = $props<{
+		scenario?: ScenarioFormData;
+		variables?: ScenarioVariable[];
+		onSubmit: (formData: ScenarioFormData, variables: ScenarioVariable[]) => void;
+	}>();
+
+	// Initialize formData with scenario data if it exists, otherwise use defaults
+	let formData: ScenarioFormData = scenario ?? {
+		name: '',
+		type: '',
+		description: ''
 	};
 
-	let formData: ScenarioFormData = {
-		name: initialFormData?.name ?? '',
-		type: initialFormData?.type ?? '',
-		description: initialFormData?.description ?? ''
-	};
+	// Initialize variables with existing ones if they exist
+	let variables = $state<ScenarioVariable[]>(existingVariables ?? []);
 
-	let variables = $state<ScenarioVariable[]>([]);
+	// Initialize advancedSettingsVisible separately
 	let advancedSettingsVisible = $state<boolean[]>([]);
+	$effect(() => {
+		advancedSettingsVisible = new Array(variables.length).fill(false);
+	});
 
 	function addVariable() {
 		variables = [
@@ -26,7 +37,7 @@
 				id: '',
 				scenario_id: '',
 				name: '',
-				type: 'factor', // Default type
+				type: 'factor',
 				value: {
 					measure: '',
 					reason: '',
@@ -52,34 +63,34 @@
 	}
 
 	function handleSubmit() {
-		onSubmit?.(formData, variables);
+		onSubmit(formData, variables);
 	}
 
 	function prefillVariables(type: string) {
 		if (!type) {
-			variables = []; // Clear variables if no type is selected
-			advancedSettingsVisible = []; // Reset visibility array
+			variables = [];
+			advancedSettingsVisible = [];
 			return;
 		}
 
-		// Fetch recommended fields directly from RECOMMENDED_FIELDS
-		const recommendedFields: ScenarioVariable[] = RECOMMENDED_FIELDS[type] || [];
-
-		// Assign them directly
-		variables = [...recommendedFields];
-
-		// Determine visibility of advanced settings based on presence of advanced fields
-		advancedSettingsVisible = variables.map((variable) => {
-			const { condition, threshold, explanation } = variable.value;
-			return !!(condition || threshold || explanation); // Show advanced settings if prefilled
-		});
+		// Only prefill if we don't have existing variables
+		if (!existingVariables) {
+			const recommendedFields: ScenarioVariable[] = RECOMMENDED_FIELDS[type] || [];
+			variables = [...recommendedFields];
+			advancedSettingsVisible = variables.map((variable) => {
+				const { condition, threshold, explanation } = variable.value;
+				return !!(condition || threshold || explanation);
+			});
+		}
 	}
 </script>
 
 <div class="space-y-6 max-w-3xl mx-auto mt-8 px-4">
 	<!-- Header -->
 	<div class="border-b border-neutral-200 pb-4">
-		<h1 class="text-2xl font-semibold text-neutral-900">Create a New Scenario</h1>
+		<h1 class="text-2xl font-semibold text-neutral-900">
+			{scenario ? 'Edit Scenario' : 'Create a New Scenario'}
+		</h1>
 	</div>
 
 	<!-- Basic Info Section -->
@@ -216,7 +227,7 @@
 	<!-- Submit Button -->
 	<div class="bg-white shadow-md ring-1 ring-neutral-900/5 rounded-lg p-6">
 		<button type="button" class="btn-primary w-full" onclick={handleSubmit}>
-			Create Scenario
+			{scenario ? 'Save Changes' : 'Create Scenario'}
 		</button>
 	</div>
 </div>
