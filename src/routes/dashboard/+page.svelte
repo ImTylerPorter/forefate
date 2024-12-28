@@ -4,36 +4,15 @@
 	import ScenarioTable from './ScenarioTable.svelte';
 	import type { Stat } from '$lib/types';
 
-	let stats = $state<Stat[]>([
-		{ name: 'Active Scenarios', value: '12', icon: Target },
-		{ name: 'Simulations Run', value: '48', icon: Brain },
-		{ name: 'Success Rate', value: '89%', icon: ChartLine },
-		{ name: 'Team Members', value: '4', icon: Users2 }
-	]);
+	let { data } = $props();
+	const { scenarios, stats } = data;
 
-	let recentScenarios = $state([
-		{
-			id: 1,
-			name: 'Market Expansion Strategy',
-			type: 'Business',
-			status: 'In Progress',
-			lastRun: '3h ago'
-		},
-		{
-			id: 2,
-			name: 'Career Path Analysis',
-			type: 'Personal',
-			status: 'Completed',
-			lastRun: '1d ago'
-		},
-		{
-			id: 3,
-			name: 'Investment Portfolio',
-			type: 'Financial',
-			status: 'Pending',
-			lastRun: '2d ago'
-		}
-	]);
+	const statCards: Stat[] = [
+		{ name: 'Active Scenarios', value: stats.activeScenarios.toString(), icon: Target },
+		{ name: 'Simulations Run', value: stats.simulationsRun.toString(), icon: Brain },
+		{ name: 'Success Rate', value: `${stats.successRate}%`, icon: ChartLine },
+		{ name: 'Team Members', value: stats.teamMembers.toString(), icon: Users2 }
+	];
 </script>
 
 <div class="space-y-8">
@@ -46,6 +25,11 @@
 		<p class="mt-2 text-lg text-neutral-600">Your AI-powered decision simulation platform</p>
 	</div>
 
-	<StatsCard {stats} />
-	<ScenarioTable scenarios={recentScenarios} />
+	<!-- Stats Cards -->
+	<StatsCard stats={statCards} />
+
+	<div class="mt-8">
+		<h3 class="text-lg font-medium text-neutral-900">Recent Scenarios</h3>
+		<ScenarioTable {scenarios} />
+	</div>
 </div>

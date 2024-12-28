@@ -1,4 +1,5 @@
 import type { Target, Brain, ChartLine, Users2 } from 'lucide-svelte';
+
 export type LucideIcon = typeof Target | typeof Brain | typeof ChartLine | typeof Users2;
 
 export type Stat = {
@@ -8,23 +9,22 @@ export type Stat = {
 };
 
 export type Scenario = {
-	id: number;
+  id: string;
   user_id: string;
-	name: string;
-	description?: string;
-	type: string;
-	status: 'Draft' | 'In Progress' | 'Completed' | 'Archived';
-	lastRun: string | null;
-	confidence?: number | null;
+  name: string;
+  description?: string | null;
+  type: string;
+  status: 'Draft' | 'In Progress' | 'Completed' | 'Archived';
+  lastRun: Date;
+  confidence: string | null;
 };
 
-
 export type RecentScenario = {
-	id: number;
-	name: string;
-	type: string;
-	status: string;
-	lastRun: string | null;
+  id: number;
+  name: string;
+  type: string;
+  status: string;
+  lastRun: string | null;
 };
 
 export type Profile = {
@@ -40,17 +40,15 @@ export type Profile = {
   createdAt: Date | null;
 };
 
-
-export type ScenarioValue ={
+export type ScenarioValue = {
   measure?: string;
   reason?: string;
   unit?: string;
-  value? : string;
+  value?: string;
   condition?: string;
   threshold?: string;
   explanation?: string;
 };
-
 
 export type ScenarioVariable = {
   id: string;
@@ -67,23 +65,23 @@ export type SimulationResult = {
 };
 
 export type SimulationParameters = {
-    scenario: {
-        name: string;
-        type: string;
-        description: string;
-    };
-    variables: Array<{
-        name: string;
-        value: {
-            measure?: string;
-            unit?: string;
-            value?: string;
-            reason?: string;
-            condition?: string;
-            threshold?: string;
-            explanation?: string;
-        };
-    }>;
+  scenario: {
+      name: string;
+      type: string;
+      description: string;
+  };
+  variables: Array<{
+      name: string;
+      value: {
+          measure?: string;
+          unit?: string;
+          value?: string;
+          reason?: string;
+          condition?: string;
+          threshold?: string;
+          explanation?: string;
+      };
+  }>;
 };
 
 export type Simulation = {
@@ -97,16 +95,15 @@ export type Simulation = {
   confidence: string;
 };
 
-
 export type VariableValue = {
-	measure?: string;
-	factorMeasure?: string;
-	unit?: string;
-	value?: string;
-	reason?: string;
-	condition?: string;
-	threshold?: string;
-	explanation?: string;
+  measure?: string;
+  factorMeasure?: string;
+  unit?: string;
+  value?: string;
+  reason?: string;
+  condition?: string;
+  threshold?: string;
+  explanation?: string;
 };
 
 // Minimal columns for scenario data
