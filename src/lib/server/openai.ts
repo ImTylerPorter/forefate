@@ -18,19 +18,28 @@ export async function analyzeScenario(
     const completion = await openai.chat.completions.create({
       model: 'grok-beta',
       messages: [
-        { role: 'system', content: 'You are a highly confident decision-making assistant.' },
+        {
+          role: 'system',
+          content: `You are a highly confident decision-making assistant. After analyzing a scenario, provide your analysis followed by a confidence score on a new line starting with "CONFIDENCE_SCORE:". Base this score (0-100) on:
+          - Completeness of input data (are all necessary variables present?)
+          - Quality of data (are the values reasonable and well-justified?)
+          - Complexity of the scenario (simpler scenarios = higher confidence)
+          - Presence of clear constraints and boundaries
+          Example: "Here's my analysis... CONFIDENCE_SCORE: 85"`
+        },
         { role: 'user', content: prompt },
       ],
       temperature: 0.7,
     });
 
-    const analysis = completion.choices[0]?.message?.content?.trim() ?? 'No analysis provided.';
+    const response = completion.choices[0]?.message?.content?.trim() ?? 'No analysis provided.';
 
-    // Derive confidence (simplified logic here)
-    const wordsCount = analysis.split(' ').length;
-    const confidence = Math.min(1, wordsCount / 200); // Cap at 100% for analyses with sufficient detail
+    // Extract confidence score and analysis
+    const confidenceMatch = response.match(/CONFIDENCE_SCORE:\s*(\d+)/);
+    const confidence = confidenceMatch ? Math.min(100, Math.max(0, parseInt(confidenceMatch[1]))) : 70;
+    const analysis = response.replace(/CONFIDENCE_SCORE:\s*\d+/, '').trim();
 
-    return { analysis, confidence: parseFloat((confidence * 100).toFixed(2)) }; // Convert to percentage
+    return { analysis, confidence };
   } catch (error) {
     console.error('Error analyzing scenario:', error);
     throw new Error('Failed to analyze scenario.');
