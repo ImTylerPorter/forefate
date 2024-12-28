@@ -48,4 +48,24 @@
   .footer-text {
     @apply text-gray-700;
   }
+
+  .simulation-card {
+    @apply p-6 bg-white rounded-lg shadow-md border border-neutral-200 space-y-4;
+  }
+
+  .simulation-header {
+    @apply flex items-center justify-between;
+  }
+
+  .simulation-title {
+    @apply text-2xl font-semibold text-neutral-900;
+  }
+
+  .simulation-confidence {
+    @apply text-sm text-primary-500 font-medium;
+  }
+
+  .simulation-content {
+    @apply border-t border-neutral-200 pt-4 text-neutral-700;
+  }
 }

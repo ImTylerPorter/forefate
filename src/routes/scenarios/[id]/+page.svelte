@@ -113,11 +113,17 @@
 
 	<!-- Most Recent Simulation -->
 	{#if simulations.length > 0}
-		<section class="p-6 bg-white rounded-lg shadow-md space-y-4">
-			<h2 class="text-2xl font-semibold text-neutral-900">Latest Simulation</h2>
-			<div>
-				<p class="text-sm text-neutral-500">Confidence: {simulations[0].confidence}</p>
-				<p class="text-neutral-800">{@html marked(simulations[0].results.analysis)}</p>
+		<section class="simulation-card">
+			<div class="simulation-header">
+				<h2 class="simulation-title">Latest Simulation</h2>
+				<span class="simulation-confidence">
+					Confidence: {simulations[0].confidence}%
+				</span>
+			</div>
+			<div class="simulation-content">
+				<div class="prose prose-sm max-w-none">
+					{@html marked(simulations[0].results.analysis, { gfm: true, breaks: true })}
+				</div>
 			</div>
 		</section>
 	{/if}

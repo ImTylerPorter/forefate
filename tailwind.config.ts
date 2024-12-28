@@ -1,3 +1,6 @@
+import typography from '@tailwindcss/typography';
+import forms from '@tailwindcss/forms';
+
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
@@ -75,7 +78,7 @@ export default {
     },
   },
   plugins: [
-    import('@tailwindcss/forms'),
+    typography, forms
   ],
 }
 
