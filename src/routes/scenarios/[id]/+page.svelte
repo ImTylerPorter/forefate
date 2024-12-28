@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { FileText, Info, Tag, RefreshCw } from 'lucide-svelte';
+	import { marked } from 'marked';
 	let { data } = $props(); // Supplied by page.server.ts
 	const { scenario, variables, simulations: initialSimulations } = data;
 	import type { VariableValue } from '$lib/types';
@@ -110,47 +111,34 @@
 		{/if}
 	</section>
 
-	<!-- Simulations Section -->
+	<!-- Most Recent Simulation -->
+	{#if simulations.length > 0}
+		<section class="p-6 bg-white rounded-lg shadow-md space-y-4">
+			<h2 class="text-2xl font-semibold text-neutral-900">Latest Simulation</h2>
+			<div>
+				<p class="text-sm text-neutral-500">Confidence: {simulations[0].confidence}</p>
+				<p class="text-neutral-800">{@html marked(simulations[0].results.analysis)}</p>
+			</div>
+		</section>
+	{/if}
+
+	<!-- Additional Simulations Section -->
 	<section>
 		<h2 class="text-xl font-semibold text-neutral-900 flex items-center space-x-2">
 			<Info class="w-6 h-6 text-primary-500" />
-			<span>Simulations</span>
+			<span>Other Simulations</span>
 		</h2>
-		{#if simulations.length > 0}
+		{#if simulations.length > 1}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-				{#each simulations as sim}
+				{#each simulations.slice(1) as sim}
 					<div class="p-4 bg-white rounded-lg shadow-md">
 						<p class="text-sm text-neutral-500">Confidence: {sim.confidence}</p>
-						<p class="text-neutral-800">{sim.results.analysis}</p>
+						<p class="text-neutral-800">{@html marked(sim.results.analysis)}</p>
 					</div>
 				{/each}
 			</div>
 		{:else}
-			<p class="text-neutral-600 mt-2">No simulations available.</p>
+			<p class="text-neutral-600 mt-2">No additional simulations available.</p>
 		{/if}
 	</section>
 </main>
-
-<style lang="postcss">
-	main {
-		@apply container mx-auto;
-	}
-
-	table th,
-	table td {
-		@apply text-sm;
-	}
-
-	table th {
-		@apply font-semibold;
-	}
-
-	table {
-		@apply w-full table-fixed;
-	}
-
-	table th,
-	table td {
-		@apply px-4 py-2;
-	}
-</style>
