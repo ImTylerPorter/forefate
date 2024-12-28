@@ -24,11 +24,14 @@
 	// Initialize variables with existing ones if they exist
 	let variables = $state<ScenarioVariable[]>(existingVariables ?? []);
 
-	// Initialize advancedSettingsVisible separately
-	let advancedSettingsVisible = $state<boolean[]>([]);
-	$effect(() => {
-		advancedSettingsVisible = new Array(variables.length).fill(false);
-	});
+	// Initialize advancedSettingsVisible based on variables
+	let advancedSettingsVisible = $state<boolean[]>(
+		(existingVariables ?? []).map(
+			(variable: ScenarioVariable) =>
+				variable.type === 'boundary' ||
+				!!(variable.value.condition || variable.value.threshold || variable.value.explanation)
+		)
+	);
 
 	function addVariable() {
 		variables = [
@@ -75,11 +78,15 @@
 
 		// Only prefill if we don't have existing variables
 		if (!existingVariables) {
-			const recommendedFields: ScenarioVariable[] = RECOMMENDED_FIELDS[type] || [];
+			const recommendedFields: ScenarioVariable[] =
+				RECOMMENDED_FIELDS[type as keyof typeof RECOMMENDED_FIELDS] || [];
 			variables = [...recommendedFields];
 			advancedSettingsVisible = variables.map((variable) => {
-				const { condition, threshold, explanation } = variable.value;
-				return !!(condition || threshold || explanation);
+				// Show advanced settings if it's a boundary type or has any advanced fields filled
+				return (
+					variable.type === 'boundary' ||
+					!!(variable.value.condition || variable.value.threshold || variable.value.explanation)
+				);
 			});
 		}
 	}
